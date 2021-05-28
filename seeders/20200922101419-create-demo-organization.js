@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
-    await queryInterface.bulkInsert('Organization', [{
+    await queryInterface.bulkInsert('Organizations', [{
       name: 'Ong de prueba',
       image: 'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
       description: 'Descripción de organización de prueba 1',
