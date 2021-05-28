@@ -6,6 +6,7 @@
 # Node artifact files
 node_modules/
 dist/
+package-lock.json
 .env
 
 # Compiled Java class files
@@ -49,3 +50,4 @@ Thumbs.db
 *.mov
 *.wmv
 
+.env
