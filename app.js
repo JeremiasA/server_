@@ -8,9 +8,11 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+
 const authRouter = require('./routes/auth');
 const organizationsRouter = require('./routes/organization')
 const entriesRouter = require('./routes/entries')
+const awsRouter = require('./routes/awsRoutes');
 
 const app = express();
 app.use(cors());
@@ -31,6 +33,12 @@ app.use('/auth', authRouter);
 app.use('/organizations', organizationsRouter);
 app.use('/auth', authRouter);
 app.use('/news', entriesRouter);
+
+// ROUTER PARA TESTEAR EL SERVICIO 
+// UPLOAD EN /files/upload
+// GET FILE /file/getfile/:__filename
+app.use('/files', awsRouter)
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
