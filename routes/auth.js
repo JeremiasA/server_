@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const controller = require('../controllers/auth_controllers');
-const validate = require('../middlewares/register_validations');
-const authValidate = require('../middlewares/auth_validations')
+const controller = require('../controllers/auth');
+const validate = require('../middlewares/register');
+const authValidate = require('../middlewares/auth');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -10,8 +10,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/register', validate, controller.register);
-router.post('/login', authValidate,  controller.login);
-
+router.post('/login', authValidate, controller.login);
 
 /* GET auth listing. */
 

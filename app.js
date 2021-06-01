@@ -7,12 +7,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/user');
 
 const authRouter = require('./routes/auth');
-const organizationsRouter = require('./routes/organization')
-const entriesRouter = require('./routes/entries')
-const awsRouter = require('./routes/awsRoutes');
+const organizationsRouter = require('./routes/organization');
+const entriesRouter = require('./routes/entry');
+const awsRouter = require('./routes/aws');
 
 const app = express();
 app.use(cors());
@@ -34,11 +34,10 @@ app.use('/organizations', organizationsRouter);
 app.use('/auth', authRouter);
 app.use('/news', entriesRouter);
 
-// ROUTER PARA TESTEAR EL SERVICIO 
+// ROUTER PARA TESTEAR EL SERVICIO
 // UPLOAD EN /files/upload
 // GET FILE /file/getfile/:__filename
-app.use('/files', awsRouter)
-
+app.use('/files', awsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

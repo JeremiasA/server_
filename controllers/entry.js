@@ -1,4 +1,4 @@
-const entries_repository = require('../repository/entries_repository');
+const entries_repository = require('../repository/entry');
 
 module.exports = {
     detail: async (req, res) => {

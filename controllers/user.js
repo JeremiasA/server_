@@ -1,6 +1,5 @@
-const repository = require('../repository/users_repository');
+const repository = require('../repository/user');
 const { verifyToken } = require('../services/security');
-const { getUserByPK, deleteUser } = require('../repository/users_repository');
 
 module.exports = userController = {
     tokenComprobation: (authorization) => {
@@ -44,7 +43,7 @@ module.exports = userController = {
     delete: async (req, res) => {
         try {
             const userId = req.params.id;
-            const userToDelete = await getUserByPK(userId);
+            const userToDelete = await repository.getUserByPK(userId);
 
             if (!userToDelete) {
                 //cuando el id no se encuentra en la base de datos
@@ -57,7 +56,7 @@ module.exports = userController = {
                     error: `El usuario de id: ${userId} había sido eliminado con fecha ${userToDelete.deletedAt}`,
                 });
             } else {
-                const resultDeleteUser = await deleteUser(userToDelete);
+                const resultDeleteUser = await repository.deleteUser(userToDelete);
 
                 if (resultDeleteUser) {
                     res.status(200).json(

@@ -1,4 +1,4 @@
-const { body } = require('express-validator')
+const { body } = require('express-validator');
 
 module.exports = [
     body('email')
@@ -20,6 +20,6 @@ module.exports = [
         .withMessage('Password min length is 4'),
 
     function (req, res, next) {
-        next()
+        next();
     },
-]
+];

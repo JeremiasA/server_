@@ -1,5 +1,5 @@
 var express = require('express');
-const controller = require('../controllers/entries_controller');
+const controller = require('../controllers/entry');
 var router = express.Router();
 
 /* GET single entry. */
