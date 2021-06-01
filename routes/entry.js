@@ -1,8 +1,12 @@
 var express = require('express');
-const controller = require('../controllers/entry');
 var router = express.Router();
+const controller = require('../controllers/entry');
+const entryValidate = require('../middlewares/entry');
+const { multerStorage } = require('../middlewares/filesVerification');
 
 /* GET single entry. */
 router.get('/:id', controller.detail);
+
+router.post('/', multerStorage, entryValidate, controller.create);
 
 module.exports = router;

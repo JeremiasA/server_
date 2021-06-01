@@ -13,4 +13,10 @@ module.exports = usersRepository = {
             ],
         });
     },
+
+    createEntry: (recievedEntryData) => {
+        return db.Entry.create({
+            ...recievedEntryData,
+        });
+    },
 };
