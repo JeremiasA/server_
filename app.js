@@ -13,6 +13,7 @@ const authRouter = require('./routes/auth');
 const organizationsRouter = require('./routes/organization');
 const entriesRouter = require('./routes/entry');
 const awsRouter = require('./routes/aws');
+const membersRouter = require('./routes/member');
 
 const app = express();
 app.use(cors());
@@ -33,6 +34,7 @@ app.use('/auth', authRouter);
 app.use('/organizations', organizationsRouter);
 app.use('/auth', authRouter);
 app.use('/news', entriesRouter);
+app.use('/members', membersRouter);
 
 // ROUTER PARA TESTEAR EL SERVICIO
 // UPLOAD EN /files/upload
