@@ -1,5 +1,6 @@
 const repository = require('../repository/user');
 const { validationResult } = require('express-validator');
+const { verifyToken } = require('../services/security');
 const bcrypt = require('bcrypt');
 
 module.exports = auth = {
@@ -56,6 +57,25 @@ module.exports = auth = {
             } else return res.status(401).json({ ok: false });
         } catch (err) {
             return res.status(500).json({ error: err });
+        }
+    },
+    getUserInfo: async (req, res) => {
+        try {
+            const userIdDecoded = verifyToken(req.headers.authorization);
+
+            if (typeof userIdDecoded !== 'number') {
+                res.status(401).json({ error: userIdDecoded });
+            } else {
+                const userFound = await repository.getUserById(userIdDecoded);
+                if (!userFound) {
+                    throw new Error('UserId does not found');
+                } else {
+                    const userFound = await repository.getUserById(userIdDecoded);
+                    res.status(202).json(userFound);
+                } 
+            }
+        } catch (error) {
+            res.status(500).send(error);
         }
     },
 };

@@ -37,6 +37,23 @@ module.exports = usersRepository = {
             return error;
         }
     },
+    getUserById: (id) => {
+        return db.User.findOne({
+            where: {
+                id: id,
+                deletedAt: {
+                    [Op.is]: null,
+                }
+            },
+            attributes: [
+                        "firstName", 
+                        "lastName", 
+                        "email", 
+                        "image",
+                        "roleId"
+                    ]
+        })
+    },
 
     deleteUser: (updateUserData) => {
         //Obtengo la fecha actual

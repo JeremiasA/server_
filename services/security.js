@@ -30,9 +30,10 @@ const security = {
                 error.message = 'El token no existe';
             } else if (error.message == 'jwt expired') {
                 error.message = 'El token ha expirado';
+            } else if (error.message == 'invalid signature'){
+                error.message = 'El token es incorrecto'
             }
-
-            return error.message;
+                return error.message;
         }
     },
 };

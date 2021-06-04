@@ -11,6 +11,8 @@ router.get('/', function (req, res, next) {
 
 router.post('/register', validate, controller.register);
 router.post('/login', authValidate, controller.login);
+router.get('/me', authValidate, controller.getUserInfo );
+
 
 /* GET auth listing. */
 
