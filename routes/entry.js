@@ -7,6 +7,10 @@ const { multerStorage } = require('../middlewares/files');
 /* GET single entry. */
 router.get('/:id', controller.detail);
 
+/* POST new entry. */
 router.post('/', multerStorage, entryValidate, controller.create);
+
+/* DELETE single entry. */
+router.delete('/:id', controller.delete);
 
 module.exports = router;
