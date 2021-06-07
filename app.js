@@ -13,6 +13,7 @@ const authRouter = require('./routes/auth');
 const organizationsRouter = require('./routes/organization');
 const entriesRouter = require('./routes/entry');
 const awsRouter = require('./routes/aws');
+const contactsRouter = require('./routes/contact')
 const membersRouter = require('./routes/member');
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/organizations', organizationsRouter);
 app.use('/news', entriesRouter);
+app.use('/contacts', contactsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/members', membersRouter);
 
