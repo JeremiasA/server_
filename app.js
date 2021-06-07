@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/user');
-
+const categoriesRouter = require('./routes/category');
 const authRouter = require('./routes/auth');
 const organizationsRouter = require('./routes/organization');
 const entriesRouter = require('./routes/entry');
@@ -32,8 +32,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/organizations', organizationsRouter);
-app.use('/auth', authRouter);
 app.use('/news', entriesRouter);
+app.use('/categories', categoriesRouter);
 app.use('/members', membersRouter);
 
 // ROUTER PARA TESTEAR EL SERVICIO
