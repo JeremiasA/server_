@@ -11,8 +11,8 @@ module.exports = {
                     error: 'Entry not found',
                 });
             return res.status(200).json(entry);
-        } catch (err) {
-            res.status(500).json({ error: err });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
         }
     },
 
