@@ -3,9 +3,19 @@ const { Op } = require('sequelize');
 
 const getSingleOrganization = (id) => {
     return Organization.findByPk(id, {
-        attributes: ['name', 'image', 'address', 'welcomeText'],
+        attributes: [
+            'name', 
+            'image', 
+            'address', 
+            'welcomeText', 
+            'facebookUrl', 
+            'linkedInUrl', 
+            'instagramUrl'
+        ],
         where: {
-            deletedAt: { [Op.is]: null },
+            deletedAt: { 
+                [Op.is]: null 
+            },
         },
     });
 };
