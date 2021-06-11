@@ -15,6 +15,7 @@ const entriesRouter = require('./routes/entry');
 const awsRouter = require('./routes/aws');
 const contactsRouter = require('./routes/contact')
 const membersRouter = require('./routes/member');
+const testimonialsRouter = require('./routes/testimonials');
 
 const app = express();
 app.use(cors());
@@ -37,6 +38,7 @@ app.use('/news', entriesRouter);
 app.use('/contacts', contactsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/members', membersRouter);
+app.use('/testimonials', testimonialsRouter);
 
 // ROUTER PARA TESTEAR EL SERVICIO
 // UPLOAD EN /files/upload

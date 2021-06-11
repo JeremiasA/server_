@@ -1,5 +1,6 @@
 const db = require('../models/index');
 const { Op } = require('sequelize');
+const moment = require('moment');
 
 module.exports = usersRepository = {
     getUsers: () => {
@@ -31,7 +32,7 @@ module.exports = usersRepository = {
     
     getUserByPK: async (userId) => {
         try {
-            return await User.findByPk(userId, { include: ['role'] });
+            return db.User.findByPk(userId, { include: ['role'] });
         } catch (error) {
             console.log(error);
             return error;
