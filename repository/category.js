@@ -12,4 +12,10 @@ module.exports = categoryRepository = {
             },
         });
     },
+    addCategory: (receivedData) => {
+        return db.Category.create(receivedData);
+    },
+    getCategoryByName:(receivedName) => {
+        return db.Category.findOne({where:{name:receivedName}})
+    }
 };
