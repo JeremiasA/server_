@@ -1,6 +1,7 @@
 const entries_repository = require('../repository/entry');
 const { validationResult } = require('express-validator');
 const { uploadFile } = require('../services/awsS3');
+const userController = require('./user');
 
 module.exports = {
     detail: async (req, res) => {
@@ -34,6 +35,20 @@ module.exports = {
         }
     },
 
+    listByType: async (req, res) => {
+        try {
+            const entriesList = await entries_repository.getEntryType();
+            
+            if (!entriesList){
+                res.status(404).json({ msg: 'No hay ningún entries con campo news' });
+            }else{
+                res.status(200).json(entriesList);
+            }
+        } catch (error) {
+            res.status(500).json({ msg: 'Error al listar los entries', error });
+        }
+    },
+
     delete: async (req, res) => {
         try {
             const entryToDelete = await entries_repository.getSingleEntry(
@@ -60,5 +75,5 @@ module.exports = {
         } catch (err) {
             res.status(500).json({ error: err });
         }
-    },
+    }
 };

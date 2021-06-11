@@ -26,6 +26,15 @@ module.exports = usersRepository = {
         });
     },
 
+    getEntryType: () => {
+        return db.Entry.findAll({
+            attributes: ['id', 'name', 'image', 'createdAt'],
+            where: {
+                type: 'news',
+            },
+        });
+    },
+
     deleteEntry: (recievedEntry) => {
         updatedEntry = {
             ...recievedEntry,
