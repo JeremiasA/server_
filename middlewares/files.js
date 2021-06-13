@@ -1,6 +1,8 @@
 const multer = require('multer');
 const mimeType = require('mime-types');
 
+const {createNewActivityController } = require('../controllers/activity')
+
 const storage = multer.memoryStorage({
     filename: (req, file, cb) => {
         cb('', '');
@@ -10,21 +12,26 @@ const storage = multer.memoryStorage({
 const multerStorage = multer({ storage }).single('image');
 
 const extensionValidator = (req, res, next) => {
-    const extensionFile = mimeType.extension(req.file.mimetype);
-
-    if (!extensionFile) {
-        res.json({ error: 'Invalid file' });
+    const file = req.file;
+    if (file === undefined) {
+        next();
     } else {
-        if (
-            extensionFile === 'jpg' ||
-            extensionFile === 'jpeg' ||
-            extensionFile === 'png'
-        ) {
-            next();
+        const extensionFile = mimeType.extension(req.file.mimetype);
+
+        if (!extensionFile) {
+            res.json({ error: 'Invalid file' });
         } else {
-            res.json({
-                error: 'Invalid image extension, valid image extension are JPG and PNG',
-            });
+            if (
+                extensionFile === 'jpg' ||
+                extensionFile === 'jpeg' ||
+                extensionFile === 'png'
+            ) {
+                next();
+            } else {
+                res.json({
+                    error: 'Invalid image extension, valid image extension are JPG and PNG',
+                });
+            }
         }
     }
 };
