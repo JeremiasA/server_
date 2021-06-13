@@ -14,4 +14,8 @@ const getContacts = () => {
     });
 };
 
-module.exports = { getContacts };
+const createContact = (receivedData)=>{
+    return Contact.create(receivedData);
+};
+
+module.exports = { getContacts, createContact };
