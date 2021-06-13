@@ -25,4 +25,10 @@ module.exports = usersRepository = {
             },
         });
     },
+
+    createTestimonial: (recievedTestimonialData) => {
+        return db.Testimonial.create({
+            ...recievedTestimonialData,
+        });
+    },
 };
