@@ -9,4 +9,6 @@ router.delete('/:id', verifyAdmin, controller.delete);
 
 router.post('/', multerStorage, validate, controller.create);
 
+router.put('/:id', verifyAdmin, multerStorage, validate, controller.modifyTestimony);
+
 module.exports = router;

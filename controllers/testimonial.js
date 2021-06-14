@@ -57,4 +57,25 @@ module.exports = {
             res.status(500).json({ error: err });
         }
     },
+    modifyTestimony: async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            if(req.deletedError) {
+                return res.status(409).json({ errors: errors.array() });
+            }else if(req.notExistsError){
+                return res.status(404).json({ errors: errors.array() });
+            } else {
+                return res.status(400).json({ errors: errors.array() });
+            }
+        }
+        try {
+           const imageName = await uploadFile(req.file);
+           req.body.image = imageName;
+           const modifiedTestimony = await repository.modifyTestimony(req.params.id, req.body);
+           return res.status(200).json(modifiedTestimony);
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ error: err });
+        }
+    }
 };
