@@ -3,7 +3,6 @@ var router = express.Router();
 const controller = require('../controllers/entry');
 const entryValidate = require('../middlewares/entry');
 const { multerStorage } = require('../middlewares/files');
-const verifyAdmin = require('../middlewares/verifyAdmin');
 
 /* GET single entry. */
 router.get('/:id', controller.detail);
@@ -12,7 +11,7 @@ router.get('/:id', controller.detail);
 router.post('/', multerStorage, entryValidate, controller.create);
 
 //router para obtener el listado de entries con campo type "news"
-router.get('/', verifyAdmin, controller.listByType);
+router.get('/', controller.listByType);
 
 /* DELETE single entry. */
 router.delete('/:id', controller.delete);
