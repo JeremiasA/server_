@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { createNewActivity } = require('../repository/activity');
+const { createNewActivity, getSingleActivity } = require('../repository/activity');
 
 const { uploadFile } = require('../services/awsS3');
 
@@ -26,5 +26,16 @@ const createNewActivityController = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const detailController = async (req, res) => {
+    try {
+        const activity = await getSingleActivity(req.params.id);
+        if(!activity){
+            return res.status(404).json({error: 'Not found'})
+        }
+        return res.status(200).json(activity)
+    } catch (error) {
+        res.status(500).json({error: 'error'})
+    }
+}
 
-module.exports = { createNewActivityController };
+module.exports = { createNewActivityController, detailController };

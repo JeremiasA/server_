@@ -4,4 +4,9 @@ const createNewActivity = (newActivityBody) => {
     return Activity.create(newActivityBody);
 };
 
-module.exports = { createNewActivity };
+const getSingleActivity = (id) => {
+    return Activity.findOne({where: {
+        id: id
+    }})
+}
+module.exports = { createNewActivity, getSingleActivity };

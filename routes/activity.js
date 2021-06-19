@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const { createNewActivityController } = require('../controllers/activity');
+const { createNewActivityController, detailController } = require('../controllers/activity');
 
 const { multerStorage, extensionValidator } = require('../middlewares/files');
 const validateBody = require('../middlewares/activity');
@@ -13,6 +13,11 @@ router.post(
     extensionValidator,
     validateBody,
     createNewActivityController
+);
+
+router.get(
+    '/:id',
+    detailController
 );
 
 module.exports = router;
