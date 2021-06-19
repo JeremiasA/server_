@@ -22,11 +22,9 @@ module.exports = (sequelize, DataTypes) => {
             },
             phone: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 validate: {
-                    notEmpty: { msg: 'Contact phone can not be empty' },
                     isNumeric: { msg: 'Please enter a valid phone number' },
-                    notNull: { msg: 'Contact phone can not be empty' },
                 },
             },
             email: {

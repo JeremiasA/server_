@@ -14,8 +14,7 @@ module.exports = [
         .isEmail()
         .withMessage('Email format is not valid'),
     body('phone')
-        .exists()
-        .withMessage('Phone is required')
+        .optional()
         .notEmpty()
         .withMessage('Phone can not be empty')
         .isNumeric()
