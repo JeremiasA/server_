@@ -12,15 +12,35 @@ module.exports = categoryRepository = {
             },
         });
     },
+
     addCategory: (receivedData) => {
         return db.Category.create(receivedData);
     },
-    getCategoryByName:(receivedName) => {
-        return db.Category.findOne({where:{name:receivedName}})
+
+    getCategoryByName: (receivedName) => {
+        return db.Category.findOne({ where: { name: receivedName } });
     },
+
     getCategoryById: (categoryId) => {
-        return db.Category.findByPk(categoryId);
+        return db.Category.findOne({
+            where: {
+                id: categoryId,
+            },
+        });
     },
+
+    deleteCategory: (recievedCategory) => {
+        updatedCategory = {
+            ...recievedCategory,
+            deletedAt: Date.now(),
+        };
+        return db.Category.update(updatedCategory, {
+            where: {
+                id: recievedCategory.id,
+            },
+        });
+    },
+
     updateCategory: (dataToUpdate, idCategory) => {
         return db.Category.update(dataToUpdate, {
             where: {
