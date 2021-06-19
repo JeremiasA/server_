@@ -1,5 +1,6 @@
 const repository = require('../repository/category');
 const { validationResult } = require('express-validator');
+const moment = require('moment');
 
 module.exports = categoryController = {
     getCategories: async (req, res) => {
@@ -35,5 +36,45 @@ module.exports = categoryController = {
             return res.status(500).json({ error: err });
         }
 
+    },
+    updateCategory: async (req,res)=>{
+        try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
+            
+            const categoryId = req.params.id;
+            const categoryToUpdate = await repository.getCategoryById(categoryId);
+            
+            if (!categoryToUpdate) {
+                res.status(404).json({
+                    error: `La categoría de id: ${categoryId} no existe`,
+                });
+            } else if (categoryToUpdate.deletedAt) {
+                res.status(409).json({
+                    error: `La categoría de id: ${categoryId} había sido eliminado con fecha ${moment
+                        .utc(categoryToUpdate.deletedAt)
+                        .format('DD-MM-YYYY')}`,
+                });
+            } else {
+                let updateCategoryBody = {
+                    ...req.body
+                }
+
+                const categoryUpdated = await repository.updateCategory(updateCategoryBody, categoryId);
+
+                if (categoryUpdated) {
+                    res.status(200).json(`La categoría de id: ${categoryId} fue actualizado con éxito`);
+                } else {
+                    res.status(404).json({
+                        error: 'No se pudo actualizar la categoría',
+                    });
+                }
+            }
+        } catch (error) {
+            res.status(500).json({ msg: 'Error al actualizar la categoría', error });
+        }
     }
 };

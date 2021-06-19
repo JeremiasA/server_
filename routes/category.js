@@ -7,4 +7,6 @@ const validateCategory = require('../middlewares/category');
 router.get('/', verifyAdmin, controller.getCategories);
 router.post('/', verifyAdmin, validateCategory, controller.addCategory);
 
+router.put('/:id', verifyAdmin, validateCategory, controller.updateCategory);
+
 module.exports = router;

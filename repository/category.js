@@ -17,5 +17,15 @@ module.exports = categoryRepository = {
     },
     getCategoryByName:(receivedName) => {
         return db.Category.findOne({where:{name:receivedName}})
+    },
+    getCategoryById: (categoryId) => {
+        return db.Category.findByPk(categoryId);
+    },
+    updateCategory: (dataToUpdate, idCategory) => {
+        return db.Category.update(dataToUpdate, {
+            where: {
+                id: idCategory
+            }
+        })
     }
 };
