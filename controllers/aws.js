@@ -5,7 +5,7 @@ const awsUploadFileController = async (req, res) => {
         const keyFile = await uploadFile(req.file);
         res.json({ key: keyFile });
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json({errors: error.message});
     }
 };
 
@@ -21,7 +21,7 @@ const awsGetFileController = async (req, res) => {
         });
         payload.pipe(res);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({error: error.message});
     }
 };
 

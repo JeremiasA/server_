@@ -44,7 +44,7 @@ app.use('/testimonials', testimonialsRouter);
 
 // ROUTER PARA TESTEAR EL SERVICIO
 // UPLOAD EN /files/upload
-// GET FILE /file/getfile/:__filename
+// GET FILE /files/getfile/:__filename
 app.use('/files', awsRouter);
 
 // catch 404 and forward to error handler

@@ -9,7 +9,7 @@ module.exports = {
             const members = await getMembers();
             if (members) return res.status(200).json(members);
         } catch (err) {
-            res.status(500).json({ error: err });
+            res.status(500).json({ error: err.message });
         }
     },
     update: async (req, res) => {

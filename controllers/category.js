@@ -14,7 +14,7 @@ module.exports = categoryController = {
                 });
         } catch (err) {
             console.log(err);
-            return res.status(500).json({ error: err });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -36,7 +36,7 @@ module.exports = categoryController = {
                 });
         } catch (err) {
             console.log(err);
-            return res.status(500).json({ error: err });
+            return res.status(500).json({ error: err.message });
         }
     },
 

@@ -7,7 +7,7 @@ module.exports = userController = {
             if (usersList) return res.status(200).json(usersList);
         } catch (err) {
             console.log(err);
-            return res.status(500).json({ error: err });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -42,7 +42,7 @@ module.exports = userController = {
                 }
             }
         } catch (error) {
-            res.status(500).json({ msg: 'Error al borrar Usuario', error });
+            res.status(500).json({ msg: 'Error al borrar Usuario', error: error.message});
         }
     },
 };

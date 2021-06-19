@@ -26,7 +26,7 @@ module.exports = auth = {
             delete user.dataValues.password;
             return res.status(201).json(user);
         } catch (err) {
-            res.status(500).json({ error: err });
+            res.status(500).json({ error: err.message });
         }
     },
 
@@ -56,7 +56,7 @@ module.exports = auth = {
                 }
             } else return res.status(401).json({ ok: false });
         } catch (err) {
-            return res.status(500).json({ error: err });
+            return res.status(500).json({ error: err.message });
         }
     },
     getUserInfo: async (req, res) => {
@@ -75,7 +75,7 @@ module.exports = auth = {
                 } 
             }
         } catch (error) {
-            res.status(500).send(error);
+            return res.status(500).json({ error: err.message });
         }
     },
 };

@@ -7,7 +7,7 @@ const getContactsController = async (req, res) => {
         const contacts = await getContacts();
         res.json(contacts);
     } catch (error) {
-        res.status(500).json(error.message);
+        res.status(500).json({error: error.message})
     }
 };
 const createContactController = async (req, res) => {
@@ -32,7 +32,7 @@ const createContactController = async (req, res) => {
             });
         }
     } catch (err) {
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({error: err.message})
     }
 };
 

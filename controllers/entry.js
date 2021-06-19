@@ -31,7 +31,7 @@ module.exports = {
             });
             return res.status(201).json(entry);
         } catch (err) {
-            res.status(500).json({ error: err });
+            res.status(500).json({ error: err.message });
         }
     },
 
@@ -45,7 +45,7 @@ module.exports = {
                 res.status(200).json(entriesList);
             }
         } catch (error) {
-            res.status(500).json({ msg: 'Error al listar los entries', error });
+            res.status(500).json({ msg: 'Error al listar los entries', error: error.message });
         }
     },
 
@@ -73,7 +73,7 @@ module.exports = {
                 }
             }
         } catch (err) {
-            res.status(500).json({ error: err });
+            res.status(500).json({ error: err.message });
         }
     }
 };

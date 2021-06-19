@@ -28,7 +28,7 @@ module.exports = usersRepository = {
 
     getEntryType: () => {
         return db.Entry.findAll({
-            attributes: ['id', 'name', 'image', 'createdAt'],
+            attributes: ['id','content', 'name', 'image', 'createdAt'],
             where: {
                 type: 'news',
             },
