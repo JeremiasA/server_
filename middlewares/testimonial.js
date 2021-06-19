@@ -14,6 +14,7 @@ module.exports = [
         .notEmpty()
         .withMessage('Content can not be empty'),
     param('id')
+        .optional()
         .custom((value, { req }) => {
         return getTestimonialById(value).then((foundedTestimony) => {
             if (!foundedTestimony) {
