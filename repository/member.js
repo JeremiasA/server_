@@ -1,9 +1,9 @@
-const db = require('../models/index');
+const { Member } = require('../models/index');
 const { Op } = require('sequelize');
 
 module.exports = {
     getMembers: () => {
-        return db.Member.findAll({
+        return Member.findAll({
             where: {
                 deletedAt: {
                     [Op.is]: null,
@@ -11,4 +11,14 @@ module.exports = {
             },
         });
     },
+    getMemberById: (memberId) => {
+        return Member.findByPk(memberId);
+    },
+    updateMember: (dataToUpdate, idMember) => {
+        return Member.update(dataToUpdate, {
+            where: {
+                id: idMember
+            }
+        })
+    }
 };
