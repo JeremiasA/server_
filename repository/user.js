@@ -5,7 +5,7 @@ const moment = require('moment');
 module.exports = usersRepository = {
     getUsers: () => {
         return db.User.findAll({
-            attributes: ['firstName', 'lastName', 'email', 'image'],
+            attributes: ['id','firstName', 'lastName', 'email', 'image'],
             where: {
                 deletedAt: {
                     [Op.is]: null,

@@ -4,7 +4,7 @@ const { Op } = require('sequelize');
 module.exports = categoryRepository = {
     getCategories: () => {
         return db.Category.findAll({
-            attributes: ['name'],
+            attributes: ['id','name'],
             where: {
                 deletedAt: {
                     [Op.is]: null,
