@@ -4,9 +4,26 @@ const createNewActivity = (newActivityBody) => {
     return Activity.create(newActivityBody);
 };
 
-const getSingleActivity = (id) => {
-    return Activity.findOne({where: {
-        id: id
-    }})
+const getActivityById = (id) => {
+    return Activity.findOne({
+        where: {
+            id: id
+        }
+    })
 }
-module.exports = { createNewActivity, getSingleActivity };
+
+const updateActivity = async (receivedData, id) => {
+    try {
+        await Activity.update(receivedData, {
+            where: {
+                id: id
+            }
+        })
+        return Activity.findByPk(id);
+
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+module.exports = { createNewActivity, getActivityById, updateActivity };
