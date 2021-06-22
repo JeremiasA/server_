@@ -1,5 +1,6 @@
 const { Member } = require('../models/index');
 const { Op } = require('sequelize');
+const moment = require('moment');
 
 module.exports = {
     getMembers: () => {
@@ -10,6 +11,25 @@ module.exports = {
                 },
             },
         });
+    },
+    deleteMember: async (memberId) => {
+        const dateNow = moment().format('YYYY-MM-DD');
+
+        const successSoftDeleted = await Member.update(
+            {
+                deletedAt: dateNow,
+            },
+            {
+                where: {
+                    id: memberId,
+                },
+            }
+        );
+        if(successSoftDeleted){
+            return memberId;
+        }else{
+            throw new Error(`Error deleting Member ${memberId}`);
+        }
     },
     getMemberById: (memberId) => {
         return Member.findByPk(memberId);

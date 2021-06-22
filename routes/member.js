@@ -7,6 +7,7 @@ const  { multerStorage, extensionValidator } = require('../middlewares/files');
 /* GET all members. */
 router.get('/', controller.list);
 
+router.delete('/:id', controller.delete);
 router.put('/:id', multerStorage, extensionValidator, validations, controller.update);
 
 module.exports = router;

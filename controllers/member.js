@@ -1,6 +1,11 @@
-const { getMembers, deleteMember, getMemberById, updateMember } = require('../repository/member');
-const { validationResult } = require("express-validator");
-const { uploadFile } = require ('../services/awsS3');
+const {
+    getMembers,
+    deleteMember,
+    getMemberById,
+    updateMember,
+} = require('../repository/member');
+const { validationResult } = require('express-validator');
+const { uploadFile } = require('../services/awsS3');
 const moment = require('moment');
 
 module.exports = {
@@ -12,6 +17,31 @@ module.exports = {
             res.status(500).json({ error: err.message });
         }
     },
+    delete: async (req, res) => {
+        const { params } = req;
+
+        try {
+            const memberFound = await getMemberById(params.id);
+            if (!memberFound) {
+                res.status(404).json({
+                    error: `Member ID ${params.id} does not exist `,
+                });
+            } else if (memberFound.deletedAt !== null) {
+                res.status(409).json({
+                    error: `Member ID ${params.id} was already deleted at ${moment
+                        .utc(memberFound.deletedAt)
+                        .format('DD-MM-YYYY')}`,
+                });
+            } else {
+                const softDeletedMember = await deleteMember(params.id);
+                res.status(202).json({
+                    msg: `Member ID ${softDeletedMember} was deleted successfully`, 
+                });
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
     update: async (req, res) => {
         try {
             const errors = validationResult(req);
@@ -21,7 +51,7 @@ module.exports = {
 
             const memberId = req.params.id;
             const memberToUpdate = await getMemberById(memberId);
-            
+
             if (!memberToUpdate) {
                 res.status(404).json({
                     error: `El miembro de id: ${memberId} no existe`,
@@ -33,18 +63,23 @@ module.exports = {
                         .format('DD-MM-YYYY')}`,
                 });
             } else {
-                let imageMember = null
+                let imageMember = null;
                 if (req.file) imageMember = await uploadFile(req.file);
 
                 let updateMemberBody = {
-                    ...req.body, 
-                    image: imageMember
-                }
-                
-                const memberUpdated = await updateMember(updateMemberBody, memberId);
+                    ...req.body,
+                    image: imageMember,
+                };
+
+                const memberUpdated = await updateMember(
+                    updateMemberBody,
+                    memberId
+                );
                 console.log(memberUpdated);
                 if (memberUpdated) {
-                    res.status(200).json(`El miembro de id: ${memberId} fue actualizado con éxito`);
+                    res.status(200).json(
+                        `El miembro de id: ${memberId} fue actualizado con éxito`
+                    );
                 } else {
                     res.status(404).json({
                         error: 'No se pudo actualizar el miembro',
@@ -52,7 +87,10 @@ module.exports = {
                 }
             }
         } catch (error) {
-            res.status(500).json({ msg: 'Error al actualizar el miembro', error });
+            res.status(500).json({
+                msg: 'Error al actualizar el miembro',
+                error,
+            });
         }
-    }
+    },
 };
