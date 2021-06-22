@@ -3,6 +3,7 @@ const {
     deleteMember,
     getMemberById,
     updateMember,
+    createmember,
 } = require('../repository/member');
 const { validationResult } = require('express-validator');
 const { uploadFile } = require('../services/awsS3');
@@ -28,14 +29,16 @@ module.exports = {
                 });
             } else if (memberFound.deletedAt !== null) {
                 res.status(409).json({
-                    error: `Member ID ${params.id} was already deleted at ${moment
+                    error: `Member ID ${
+                        params.id
+                    } was already deleted at ${moment
                         .utc(memberFound.deletedAt)
                         .format('DD-MM-YYYY')}`,
                 });
             } else {
                 const softDeletedMember = await deleteMember(params.id);
                 res.status(202).json({
-                    msg: `Member ID ${softDeletedMember} was deleted successfully`, 
+                    msg: `Member ID ${softDeletedMember} was deleted successfully`,
                 });
             }
         } catch (error) {
@@ -91,6 +94,34 @@ module.exports = {
                 msg: 'Error al actualizar el miembro',
                 error,
             });
+        }
+    },
+    delete: async (req, res) => {
+        const { params } = req;
+
+        try {
+            const softDeletedMember = await deleteMember(params.id);
+            res.status(202).json(softDeletedMember);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    create: async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        try {
+            if (req.file) imageName = await uploadFile(req.file);
+            else imageName = null;
+            const createdMember = await createmember({
+                name: req.body.name,
+                image: imageName,
+            });
+            return res.status(201).json(createdMember);
+        } catch (error) {
+            return res.status(500).json({ error: error });
         }
     },
 };

@@ -25,11 +25,17 @@ module.exports = {
                 },
             }
         );
-        if(successSoftDeleted){
+        if (successSoftDeleted) {
             return memberId;
-        }else{
+        } else {
             throw new Error(`Error deleting Member ${memberId}`);
         }
+    },
+    createmember: ({ name, image }) => {
+        return Member.create({
+            name,
+            image,
+        });
     },
     getMemberById: (memberId) => {
         return Member.findByPk(memberId);
@@ -37,8 +43,8 @@ module.exports = {
     updateMember: (dataToUpdate, idMember) => {
         return Member.update(dataToUpdate, {
             where: {
-                id: idMember
-            }
-        })
-    }
+                id: idMember,
+            },
+        });
+    },
 };

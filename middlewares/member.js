@@ -6,8 +6,9 @@ module.exports = [
         .not()
         .isEmpty()
         .withMessage("Member name can't be empty")
-        .isAlpha('es-ES',{ignore:' '})
+        .isAlpha('es-ES', { ignore: ' ' })
         .withMessage('Member name must be a string'),
+
     function (req, res, next) {
         next();
     },
