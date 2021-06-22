@@ -1,6 +1,6 @@
 const repository = require('../repository/user');
 const { validationResult } = require('express-validator');
-const { verifyToken } = require('../services/security');
+const { verifyToken, getToken } = require('../services/security');
 const bcrypt = require('bcrypt');
 
 module.exports = auth = {
@@ -24,7 +24,7 @@ module.exports = auth = {
                 password: bcrypt.hashSync(req.body.password, 10),
             });
             delete user.dataValues.password;
-            return res.status(201).json(user);
+            return res.status(201).json({ user: user, token: getToken(user.id) });
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
@@ -50,11 +50,14 @@ module.exports = auth = {
                 );
                 if (result) {
                     foundedUser.dataValues.password = '';
-                    return res.status(200).json(foundedUser);
+                    return res.status(200).json({
+                        msg: 'Usuario logueado correctamente', 
+                        user: foundedUser,
+                        token: getToken(foundedUser.id) });
                 } else {
-                    return res.status(401).json({ ok: false });
+                    return res.status(401).json({ ok: false, msg: 'La contraseña es incorrecta' });
                 }
-            } else return res.status(401).json({ ok: false });
+            } else return res.status(401).json({ ok: false, msg: 'El usuario no existe' });
         } catch (err) {
             return res.status(500).json({ error: err.message });
         }
