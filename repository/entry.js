@@ -31,6 +31,9 @@ module.exports = usersRepository = {
             attributes: ['id','content', 'name', 'image', 'createdAt'],
             where: {
                 type: 'news',
+                deletedAt: {
+                    [Op.is]: null
+                }
             },
         });
     },
