@@ -96,16 +96,6 @@ module.exports = {
             });
         }
     },
-    delete: async (req, res) => {
-        const { params } = req;
-
-        try {
-            const softDeletedMember = await deleteMember(params.id);
-            res.status(202).json(softDeletedMember);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    },
     create: async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
