@@ -1,9 +1,9 @@
-const db = require('../models/index');
+const { Entry, Category } = require('../models/index');
 const { Op } = require('sequelize');
 
 module.exports = usersRepository = {
     getSingleEntry: (id) => {
-        return db.Entry.findOne({
+        return Entry.findOne({
             where: {
                 id: id,
                 deletedAt: {
@@ -12,7 +12,7 @@ module.exports = usersRepository = {
             },
             include: [
                 {
-                    model: db.Category,
+                    model: Category,
                     as: 'categories',
                     attributes: ['name'],
                 },
@@ -21,13 +21,13 @@ module.exports = usersRepository = {
     },
 
     createEntry: (recievedEntryData) => {
-        return db.Entry.create({
+        return Entry.create({
             ...recievedEntryData,
         });
     },
 
     getEntryType: () => {
-        return db.Entry.findAll({
+        return Entry.findAll({
             attributes: ['id','content', 'name', 'image', 'createdAt'],
             where: {
                 type: 'news',
@@ -43,10 +43,22 @@ module.exports = usersRepository = {
             ...recievedEntry,
             deletedAt: Date.now(),
         };
-        return db.Entry.update(updatedEntry, {
+        return Entry.update(updatedEntry, {
             where: {
                 id: recievedEntry.id,
             },
         });
+    },
+    editNews: async (entryId, updatesToDo) => {
+        const successUpdated = await Entry.update(updatesToDo, {
+            where: {
+                id: entryId,
+            },
+        });
+        if (successUpdated) {
+            return await Entry.findByPk(entryId);
+        } else {
+            throw new Error(`Error updating News ID ${entryId}`);
+        }
     },
 };
