@@ -1,18 +1,13 @@
-const { validationResult } = require('express-validator');
-const {
-    createNewActivity,
-    getActivityById,
-    updateActivity,
-} = require('../repository/activity');
+const validator = require('express-validator');
+const repository = require('../repository/activity');
 
 const { uploadFile } = require('../services/awsS3');
 
 const createNewActivityController = async (req, res) => {
     const file = req.file;
     let keyFile = '';
-
     try {
-        const errors = validationResult(req);
+        const errors = validator.validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
@@ -21,41 +16,41 @@ const createNewActivityController = async (req, res) => {
         } else {
             keyFile = await uploadFile(req.file);
         }
-        const activityCreated = await createNewActivity({
+        const activityCreated = await repository.createNewActivity({
             ...req.body,
             image: keyFile,
         });
-        res.status(201).json(activityCreated);
+        return res.status(201).json(activityCreated);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 const detailController = async (req, res) => {
     try {
-        const activity = await getActivityById(req.params.id);
+        const activity = await repository.getActivityById(req.params.id);
         if (!activity) {
             return res.status(404).json({ error: 'Not found' });
         }
         return res.status(200).json(activity);
-    } catch (error) {
-        res.status(500).json({ error: 'error' });
+    } catch (err) {
+        return res.status(500).json({ error: err });
     }
 };
 
 const editActivity = async (req, res) => {
     try {
-        const activityToEdit = await getActivityById(req.params.id);
+        const activityToEdit = await repository.getActivityById(req.params.id);
         if (!activityToEdit) {
             return res.status(404).json({
                 error: 'Activity not found',
             });
         } else if (activityToEdit.deletedAt) {
-            res.status(409).json({
+           return res.status(409).json({
                 error: 'This activity is not available',
             });
         } else if (req.file) {
             const imageName = await uploadFile(req.file);
-            const updatedActivity = await updateActivity(
+            const updatedActivity = await repository.updateActivity(
                 {
                     ...req.body,
                     image: imageName,
@@ -66,14 +61,14 @@ const editActivity = async (req, res) => {
                 return res.status(200).json(updatedActivity);
             }
         } else {
-            const updatedActivity = await updateActivity(
+            const updatedActivity = await repository.updateActivity(
                 req.body,
                 activityToEdit.id
             );
             return res.status(200).json(updatedActivity);
         }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error });
     }
 };
 
